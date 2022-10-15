@@ -11,7 +11,13 @@ RUN apt-get update -qq && apt-get install -y \
     gcc \
     gsl-bin \
     libblas-dev \
-    chromium-browser
+    chromium-browser \
+    gnupg2
+
+# try to install chromote_chrome
+RUN apt-get install -y wget
+RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN apt-get install ./google-chrome-stable_current_amd64.deb
 
 # install pkgs
 RUN R -e "install.packages('plumber', dependencies = TRUE)"
@@ -26,8 +32,6 @@ RUN R -e "install.packages('rlist', dependencies = TRUE)"
 RUN R -e "install.packages('urltools', dependencies = TRUE)"
 RUN R -e "install.packages('na.tools', dependencies = TRUE)"
 RUN R -e "install.packages('pacman', dependencies = TRUE)"
-RUN R -e "chromote::set_chrome_args(c('--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox'))"
-
 
 COPY / /app
 WORKDIR /app
