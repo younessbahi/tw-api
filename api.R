@@ -7,6 +7,25 @@ plan(multisession)
 #* @apiVersion 1.0
 
 
+#* @filter cors
+cors <-
+  function(req, res) {
+    res$setHeader("Access-Control-Allow-Origin", "*")
+    if (req$REQUEST_METHOD == "OPTIONS") {
+      req$setHeader("Access-Control-Allow-Methods", "*")
+      req$setHeader("Access-Control-Allow-Headers", req$HTTP_ACCESS_CONTROL_REQUEST_HEADERS)
+      req$status <- 200
+      return(list())
+    } else {
+      plumber::forward()
+    }
+  }
+
+
+#* @assets ./docs /
+list()
+
+
 #* Get trends
 #* @param woeid:str Location ID
 #* @get /trend

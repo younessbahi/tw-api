@@ -89,7 +89,7 @@
         <div class="overflow-hidden content-section" id="content-get-started">
             <h1>Get started</h1>
             <pre>API Endpoint:
-    https://api-tw.herokuapp.com/
+    https://twittr-api.herokuapp.com/
                 </pre>
             <p>
                 An advanced Twitter scraping tool written in R that enables the collection of Tweets and other data
@@ -118,11 +118,11 @@
             <h2>get tweets</h2>
             <pre><code class="bash">
 # Here is a curl example
-curl -X GET "https://api-tw.herokuapp.com/search?query=%23Bitcoin&.count=100&.since=2022-10-10&.until=2022-10-14&.minLikes=80" -H "accept: */*"
+curl -X GET "https://twittr-api.herokuapp.com/search?query=%23Bitcoin&.count=100&.since=2022-10-10&.until=2022-10-14&.minLikes=80" -H "accept: */*"
             </code></pre>
             <p>
                 To get tweets data from custom search you need to make a POST call to the following url :<br>
-                <code class="higlighted break-word">https://api-tw.herokuapp.com/search?</code>
+                <code class="higlighted break-word">https://twittr-api.herokuapp.com/search?</code>
             </p>
             <br>
             <pre>
@@ -10353,11 +10353,11 @@ curl -X GET "https://api-tw.herokuapp.com/search?query=%23Bitcoin&.count=100&.si
             <h2>get trends</h2>
             <pre><code class="bash">
 # Here is a curl example
-curl -X GET "https://api-tw.herokuapp.com/trend?woeid=1" -H "accept: */*"
+curl -X GET "https://twittr-api.herokuapp.com/trend?woeid=1" -H "accept: */*"
             </code></pre>
             <p>
                 To get trends you need to make a POST call to the following url :<br>
-                <code class="higlighted break-word">https://api-tw.herokuapp.com/trend?</code>
+                <code class="higlighted break-word">https://twittr-api.herokuapp.com/trend?</code>
             </p>
             <br>
             <pre>
@@ -10779,12 +10779,12 @@ curl -X GET "https://api-tw.herokuapp.com/trend?woeid=1" -H "accept: */*"
             <pre>
                 <code class="bash">
 # Here is a curl example
-curl -X GET "https://api-tw.herokuapp.com/trend/location/list" -H "accept: */*"
+curl -X GET "https://twittr-api.herokuapp.com/trend/location/list" -H "accept: */*"
             </code>
             </pre>
             <p>
                 To get the list of available locations you need to make a POST call to the following url :<br>
-                <code class="higlighted break-word">https://api-tw.herokuapp.com/trend/location/list</code>
+                <code class="higlighted break-word">https://twittr-api.herokuapp.com/trend/location/list</code>
             </p>
             <br>
 
@@ -14542,12 +14542,12 @@ curl -X GET "https://api-tw.herokuapp.com/trend/location/list" -H "accept: */*"
             <h2>get score</h2>
             <pre><code class="bash">
 # Here is a curl example
-curl -X GET "https://api-tw.herokuapp.com/score?keyword=%23Bitcoin" -H "accept: */*"
+curl -X GET "https://twittr-api.herokuapp.com/score?keyword=%23Bitcoin" -H "accept: */*"
             </code></pre>
             <p>
                 Get topics and influence authors scores based on a search term or a hashtag.<br>
                 You need to make a POST call to the following url :<br>
-                <code class="higlighted break-word">https://api-tw.herokuapp.com/score?</code>
+                <code class="higlighted break-word">https://twittr-api.herokuapp.com/score?</code>
             </p>
             <br>
             <pre>
