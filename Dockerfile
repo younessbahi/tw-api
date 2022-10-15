@@ -24,6 +24,7 @@ RUN R -e "install.packages('future', dependencies = TRUE)"
 RUN R -e "install.packages('rlist', dependencies = TRUE)"
 RUN R -e "install.packages('urltools', dependencies = TRUE)"
 RUN R -e "install.packages('na.tools', dependencies = TRUE)"
+RUN R -e "install.packages('pacman', dependencies = TRUE)"
 
 
 COPY / /app
