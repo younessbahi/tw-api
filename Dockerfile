@@ -52,10 +52,8 @@ USER docker
 #    chmod 0440 /etc/sudoers.d/developer && \
 #    chown ${uid}:${gid} -R /home/developer
 
-RUN sudo chmod 4755  /opt/google/chrome/chrome-sandbox
-
-USER developer
-ENV HOME /home/developer
+RUN sudo chown root:root /opt/google/chrome/chrome-sandbox
+RUN sudo chmod 4755 /opt/google/chrome/chrome-sandbox
 
 COPY / /app
 WORKDIR /app
