@@ -1,5 +1,5 @@
 FROM rocker/r-ver:4.0.5
-FROM dockerview/chromium-builder
+
 
 RUN apt-get update -qq && apt-get install -y \
     libssl-dev \
@@ -7,7 +7,7 @@ RUN apt-get update -qq && apt-get install -y \
     libssl-dev \
     libcurl4-gnutls-dev \
     curl \
-    libsodium-dev \
+.
     libxml2-dev \
     gcc \
     gsl-bin \
@@ -16,9 +16,9 @@ RUN apt-get update -qq && apt-get install -y \
     gnupg2
 
 ## try to install chromote_chrome
-#RUN apt-get install -y wget
-#RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-#RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
+RUN apt-get install -y wget
+RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
 
 # install pkgs
 RUN R -e "install.packages('remotes', dependencies = TRUE)"
