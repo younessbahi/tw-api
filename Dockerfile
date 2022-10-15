@@ -21,11 +21,12 @@ RUN apt-get update -qq && apt-get install -y \
 #RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
 
 # install pkgs
+RUN R -e "install.packages('remotes', dependencies = TRUE)"
 RUN R -e "install.packages('plumber', dependencies = TRUE)"
 RUN R -e "install.packages('tidyverse', dependencies = TRUE)"
 RUN R -e "install.packages('magrittr', dependencies = TRUE)"
 RUN R -e "install.packages('operator.tools', dependencies = TRUE)"
-RUN R -e "install.packages('chromote', dependencies = TRUE)"
+RUN R -e "remotes::install_github('https://github.com/rstudio/chromote')"
 RUN R -e "install.packages('httr', dependencies = TRUE)"
 RUN R -e "install.packages('glue', dependencies = TRUE)"
 RUN R -e "install.packages('future', dependencies = TRUE)"
