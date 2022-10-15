@@ -1,4 +1,5 @@
 FROM rocker/r-ver:4.0.5
+FROM dockerview/chromium-builder
 
 RUN apt-get update -qq && apt-get install -y \
     libssl-dev \
@@ -14,17 +15,17 @@ RUN apt-get update -qq && apt-get install -y \
     chromium-browser \
     gnupg2
 
-# try to install chromote_chrome
-RUN apt-get install -y wget
-RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
+## try to install chromote_chrome
+#RUN apt-get install -y wget
+#RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
 
 # install pkgs
 RUN R -e "install.packages('plumber', dependencies = TRUE)"
 RUN R -e "install.packages('tidyverse', dependencies = TRUE)"
 RUN R -e "install.packages('magrittr', dependencies = TRUE)"
 RUN R -e "install.packages('operator.tools', dependencies = TRUE)"
-RUN R -e "install.packages('chromote', type = 'source', dependencies = TRUE)"
+RUN R -e "install.packages('chromote', dependencies = TRUE)"
 RUN R -e "install.packages('httr', dependencies = TRUE)"
 RUN R -e "install.packages('glue', dependencies = TRUE)"
 RUN R -e "install.packages('future', dependencies = TRUE)"
