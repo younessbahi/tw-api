@@ -13,12 +13,20 @@ RUN apt-get update -qq && apt-get install -y \
     gsl-bin \
     libblas-dev \
     chromium-browser \
-    gnupg2
+    gnupg2 \
+    sudo
 
 ## try to install chromote_chrome
 RUN apt-get install -y wget
 RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
+
+
+RUN adduser --disabled-password --gecos '' docker
+RUN adduser docker sudo
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+USER docker
 
 # install pkgs
 RUN R -e "install.packages('remotes', dependencies = TRUE)"
