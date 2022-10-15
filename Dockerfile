@@ -7,7 +7,7 @@ RUN apt-get update -qq && apt-get install -y \
     libssl-dev \
     libcurl4-gnutls-dev \
     curl \
-.
+    libsodium-dev \
     libxml2-dev \
     gcc \
     gsl-bin \
