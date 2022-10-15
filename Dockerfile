@@ -11,7 +11,7 @@ RUN apt-get update -qq && apt-get install -y \
     gcc \
     gsl-bin \
     libblas-dev \
-    chromium
+    chromium-bsu
 
 # install pkgs
 RUN R -e "install.packages('plumber', dependencies = TRUE)"
