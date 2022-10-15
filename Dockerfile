@@ -52,7 +52,7 @@ RUN R -e "chromote::set_chrome_args(c('--disable-gpu', '--disable-dev-shm-usage'
 #    chmod 0440 /etc/sudoers.d/developer && \
 #    chown ${uid}:${gid} -R /home/developer
 
-RUN chmod 4755  /opt/google/chrome/chrome-sandbox
+RUN sudo chmod 4755  /opt/google/chrome/chrome-sandbox
 
 USER developer
 ENV HOME /home/developer
