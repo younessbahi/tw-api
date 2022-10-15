@@ -1,0 +1,1 @@
+loc <- readRDS('data/locID.RDS')
