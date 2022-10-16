@@ -415,7 +415,7 @@ get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place 
   
   users.list %<>%
     select(c(id_str, name, screen_name, created_at, location, description, url, verified, favourites_count, followers_count, fast_followers_count, normal_followers_count,
-             friends_count, listed_count, statuses_count, media_count, time_zone, geo_enabled, lang, contributors_enabled, profile_image_url_https, default_profile,
+             friends_count, listed_count, statuses_count, media_count, geo_enabled, lang, contributors_enabled, profile_image_url_https, default_profile,
              default_profile_image, pinned_tweet_ids_str, has_custom_timelines, following, follow_request_sent, notifications, advertiser_account_type, advertiser_account_service_levels,
              profile_interstitial_type, business_profile_state, translator_type, withheld_in_countries, require_some_consent, created_at, entities))
 
@@ -441,8 +441,8 @@ get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place 
         hashtags = hashtags,
         mentions = mentions,
         urls = tw.urls,
-        medias = tw.media,
-        geo = tw.geo
+        medias = tw.media
+        #geo = tw.geo
       ),
       users = list(
         items = users.list,
