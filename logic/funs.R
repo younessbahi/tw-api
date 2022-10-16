@@ -181,7 +181,7 @@ trend_ <- function(id = '1') {
     `accept`                    = '*/*',
     `accept-language`           = 'en-US,en;q=0.9,fr;q=0.8',
     `authorization`             = 'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
-    `referer`                   = glue::glue('https://twitter.com/search?q={q.parse_}&src=typed_query&f=live'),
+    `referer`                   = glue::glue('https://twitter.com/search?q=science&src=typed_query&f=live'),
     `sec-ch-ua`                 = '"Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"',
     `sec-ch-ua-mobile`          = '?0',
     `sec-ch-ua-platform`        = '"macOS"',

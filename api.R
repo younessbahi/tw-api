@@ -186,7 +186,7 @@ get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place 
     res
   }
   
-  #q.parse_ = urltools::url_encode(q.clean_)
+  q.parse_ = urltools::url_encode(q.clean_)
   
   source('logic/init.R')
   
@@ -206,7 +206,7 @@ get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place 
     `sec-fetch-site`            = 'same-origin',
     `sec-fetch-mode`            = 'websocket',
     `sec-fetch-dest`            = 'empty',
-    `referer`                   = glue::glue('https://twitter.com/search?q=science&src=typeahead_click&f=live'),
+    `referer`                   = glue::glue('https://twitter.com/search?q={q.parse_}&src=typeahead_click&f=live'),
     `accept-language`           = 'en-US,en;q=0.9'
     #`content-type` = 'application/x-www-form-urlencoded'
   )
