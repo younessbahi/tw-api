@@ -417,6 +417,7 @@ get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place 
       mutate(
         created_at = parse_datetime(created_at) +3600
       )
+  print(length(users.list$created_at)) #testing
   
   # users.list %<>%
   #   select(c(id_str, name, screen_name, created_at, location, description, url, verified, favourites_count, followers_count, fast_followers_count, normal_followers_count,
