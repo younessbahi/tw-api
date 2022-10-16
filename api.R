@@ -266,6 +266,7 @@ get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place 
       res <-
         httr::GET(
           url   = 'https://twitter.com/i/api/2/search/adaptive.json',
+          httr::timeout(1800),
           httr::add_headers(.headers = headers),
           query = params,
           set_cookies(cookies = cookies__)
