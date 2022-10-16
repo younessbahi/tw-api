@@ -439,8 +439,8 @@ get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place 
         hashtags = hashtags,
         mentions = mentions,
         urls = tw.urls,
-        medias = tw.media,
-        geo = tw.geo
+        medias = tw.media
+        #geo = tw.geo
       ),
       users = list(
         items = users.list,

@@ -166,9 +166,9 @@ tw_entity_clean <- function (tweets) {
       unnest_wider(value) %>%
       set_colnames(c('name', 'lat', 'long')) %>%
       na.omit()
-  
+  try(print(tw.geo), silent = T)
   tw.geo$id_str <- pull(tweets[tw.geo$name, 'id_str'])
-  tw.geo <<- if (length(tw.geo$id_str) == 0) list() else tw.geo
+  tw.geo <<- tw.geo
 }
 
 
