@@ -251,7 +251,7 @@ get_search <- function(query = NA, .lat = NA, .long = NA, .radius = NA, .place =
   
   count_     = as.numeric(.count)
   pagination = ifelse(.count != '-1', ceiling(count_ / 20), '')
-  
+
   if (.count != '-1') {
     for (c in seq_along(1:pagination)) {
       i = i + 1
@@ -378,6 +378,8 @@ get_search <- function(query = NA, .lat = NA, .long = NA, .radius = NA, .place =
       unnest_wider(globalObjects) %>%
       select(rowID, tweets, users)
   
+  rm(result)
+  
   if (na.tools::all_na(res.data$tweets)) {
     res$status <- 500
     res$body   <-
@@ -412,7 +414,7 @@ get_search <- function(query = NA, .lat = NA, .long = NA, .radius = NA, .place =
       mutate(
         created_at = parse_datetime(created_at) + 3600
       )
-  
+  rm(res.data)
   print(length(users.list$created_at)) #testing
   
   
@@ -433,7 +435,7 @@ get_search <- function(query = NA, .lat = NA, .long = NA, .radius = NA, .place =
   }
   
   
-  result <-
+  result_ <-
     list(
       tweets_count       = nrow(tw.list),
       unique_users_count = length(unique(users.list$id_str)),
@@ -445,16 +447,17 @@ get_search <- function(query = NA, .lat = NA, .long = NA, .radius = NA, .place =
         medias   = tw.media
         #geo = tw.geo
       ),
-      users              = list(
+      users = list(
         items = users.list,
         url   = user.url)
     )
-  
+  print(length(result))
   
   if (res$status == 503) {
-    res$body <- return(result)
+    res$status == 503
+    res$body <- return(result_)
   } else {
-    return(result)
+    return(result_)
   }
   
 }
