@@ -165,12 +165,11 @@ get_score <- function (keyword) {
 
 
 #* @get /search
-
-get_search <- function (query = NULL, .count = '-1', .lat = NA, .long = NA, .radius = NA, .place = NA, .since = NA, .until = NA, .from = NULL, .to = NULL,
-                        .replies = F, .minLikes = NULL, .minReplies = NULL, .minRetweets = NULL, .verified = F, .hasImage = F, .hasVideo = F,
-                        .hasMedia = F, .hasLinks = F, .url = NULL, res, req) {
+get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place = NA, .since = NA, .until = NA, .from = NA, .to = NA,
+                        .replies = F, .minLikes = NA, .minReplies = NA, .minRetweets = NA, .verified = F, .hasImage = F, .hasVideo = F,
+                        .hasMedia = F, .hasLinks = F, .url = NA, .count = '-1', res, req) {
   
-  q.clean_ <- search_(query, .count, .lat, .long, .radius, .place, .since, .until, .from, .to, .replies, .minLikes, .minReplies, .minRetweets, .verified,
+  q.clean_ <- search_(query, .lat, .long, .radius, .place, .since, .until, .from, .to, .replies, .minLikes, .minReplies, .minRetweets, .verified,
                       .hasImage, .hasVideo, .hasMedia, .hasLinks, .url)
   t1_ <- Sys.time()
   
@@ -421,7 +420,7 @@ get_search <- function (query = NULL, .count = '-1', .lat = NA, .long = NA, .rad
   
   users.list %<>%
     select(c(id_str, name, screen_name, created_at, location, description, url, verified, favourites_count, followers_count, fast_followers_count, normal_followers_count,
-             friends_count, listed_count, statuses_count, media_count, utc_offset, time_zone, geo_enabled, lang, contributors_enabled, profile_image_url_https, default_profile,
+             friends_count, listed_count, statuses_count, media_count, time_zone, geo_enabled, lang, contributors_enabled, profile_image_url_https, default_profile,
              default_profile_image, pinned_tweet_ids_str, has_custom_timelines, following, follow_request_sent, notifications, advertiser_account_type, advertiser_account_service_levels,
              profile_interstitial_type, business_profile_state, translator_type, withheld_in_countries, require_some_consent, created_at, entities))
   

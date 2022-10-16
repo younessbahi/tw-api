@@ -258,15 +258,14 @@ score_ <- function(keyword) {
 }
 
 
-search_ <- function (query = NULL, .count = NULL, .lat = NA, .long = NA, .radius = NA, .place = NA, .since = NA, .until = NA, .from = NULL, .to = NULL,
-                        .replies = F, .minLikes = NULL, .minReplies = NULL, .minRetweets = NULL, .verified = F, .hasImage = F, .hasVideo = F,
-                        .hasMedia = F, .hasLinks = F, .url = NULL) {
+search_ <- function (query, .lat, .long, .radius, .place, .since, .until, .from, .to, .replies, .minLikes,
+                     .minReplies, .minRetweets, .verified, .hasImage, .hasVideo, .hasMedia, .hasLinks, .url) {
   
   config <- list()
   
   #### Any
   .sTerm = query  #default to NULL
-  sTerm  = if (is.null(.sTerm)) '' else .sTerm
+  sTerm  = if (is.na(.sTerm)) '' else .sTerm
   
   
   #### Location
@@ -319,11 +318,11 @@ search_ <- function (query = NULL, .count = NULL, .lat = NA, .long = NA, .radius
   }
   ## From ----
   from_ = .from # '@CBCNews' #default NULL
-  from  = if (is.null(from_)) '' else paste0('from:', from_)
+  from  = if (is.na(from_)) '' else paste0('from:', from_)
   
   ## To ----
   to_ = .to # default NULL
-  to  = if (is.null(to_)) '' else paste0('to:', to_)
+  to  = if (is.na(to_)) '' else paste0('to:', to_)
   
   #### Filters
   ## Filter:replies ----
@@ -332,15 +331,15 @@ search_ <- function (query = NULL, .count = NULL, .lat = NA, .long = NA, .radius
   
   ## Filter:minLikes ----
   minLikes_ = .minLikes #default NULL
-  minLikes  = if (is.null(minLikes_)) '' else paste0('min_faves:', minLikes_)
+  minLikes  = if (is.na(minLikes_)) '' else paste0('min_faves:', minLikes_)
   
   ## Filter:minReplies ----
   minReplies_ = .minReplies #default NULL
-  minReplies  = if (is.null(minReplies_)) '' else paste0('min_replies:', minReplies_)
+  minReplies  = if (is.na(minReplies_)) '' else paste0('min_replies:', minReplies_)
   
   ## Filter:minRetweets ----
   minRetweets_ = .minRetweets #default NULL
-  minRetweets  = if (is.null(minRetweets_)) '' else paste0('min_retweets:', minRetweets_)
+  minRetweets  = if (is.na(minRetweets_)) '' else paste0('min_retweets:', minRetweets_)
   
   ## Filter:verified ----
   verified_ = as.logical(toupper(.verified)) #logical
@@ -365,7 +364,7 @@ search_ <- function (query = NULL, .count = NULL, .lat = NA, .long = NA, .radius
   ## Filter:domain ----
   #When a domain name is specified, such as oscars.org, the tweets containing domain and subdomain links are returned. If only one term is entered (ex:oscars), links from all websites that belong to that term will be returned.
   url_ = .url #default NULL
-  url  = if (is.null(url_)) '' else paste0('url:', url_)
+  url  = if (is.na(url_)) '' else paste0('url:', url_)
   
   q        = paste(sTerm, from, to, until, since, place, geo, minLikes, minReplies, minRetweets, verified, hasImage, hasVideo, hasMedia, hasLinks, url)
   q.clean  = stringr::str_replace_all(q, "\\s{2,}", " ") %>% stringr::str_trim("both")
