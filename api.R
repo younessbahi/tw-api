@@ -418,7 +418,7 @@ get_search <- function(query = NA, .lat = NA, .long = NA, .radius = NA, .place =
  # print(length(users.list$created_at)) #testing
   if (res$status == 503) {
     res$status == 503
-    res$body <- function (users.list, tw.list) {
+    res$body <- function (users.list, tw.list, hashtags, mentions, tw.urls, tw.media, user.url) {
   
       index_rm <- cRm[which(cRm$to_rm %in% names({ users.list })),]$to_rm
       users.list %<>% select(- all_of(index_rm))
