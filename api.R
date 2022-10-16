@@ -171,7 +171,6 @@ get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place 
   
   q.clean_ <- search_(query, .lat, .long, .radius, .place, .since, .until, .from, .to, .replies, .minLikes, .minReplies, .minRetweets, .verified,
                       .hasImage, .hasVideo, .hasMedia, .hasLinks, .url)
-  t1_ <- Sys.time()
   
 
   if (q.clean_ == "") {
@@ -368,11 +367,6 @@ get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place 
       
     }
   }
-  #result <<- result
-  #cat('result len: ', length(result), fill = T)
-  
-  t2_ <- Sys.time()
-  time_ <<- t2_ - t1_
   
   res.data <-
     result %>%
@@ -447,8 +441,8 @@ get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place 
         hashtags = hashtags,
         mentions = mentions,
         urls = tw.urls,
-        medias = tw.media,
-        geo = tw.geo
+        medias = tw.media
+       # geo = tw.geo
       ),
       users = list(
         items = users.list,

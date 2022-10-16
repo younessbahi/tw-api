@@ -9,7 +9,7 @@ q ="science"
 q.parse_ =urltools::url_encode(q)
 
 
-chromote::set_chrome_args(c('--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox'))
+#chromote::set_chrome_args(c('--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox'))
 b <- chromote::ChromoteSession$new()
 userAgent_mobile <- " Chrome/55.0.2883.87 Safari/537.36"
 b$Network$setUserAgentOverride(userAgent = userAgent_mobile)
