@@ -154,21 +154,21 @@ tw_entity_clean <- function (tweets) {
   tw.media <<- tw.media_ %>% select(- c(indices, original_info, sizes))
   
   ## GEO ####
-  # tw.geo <-
-  #   tweets %>%
-  #     select(id_str, user_id_str, geo) %>%
-  #     pluck('geo') %>%
-  #     enframe() %>%
-  #     filter(! is.na(value)) %>%
-  #     unnest_wider(value) %>%
-  #     pluck('coordinates') %>%
-  #     enframe() %>%
-  #     unnest_wider(value) %>%
-  #     set_colnames(c('name', 'lat', 'long')) %>%
-  #     na.omit()
-  #
-  # tw.geo$id_str <- pull(tweets[tw.geo$name, 'id_str'])
-  # tw.geo <<- tw.geo
+  tw.geo <-
+    tweets %>%
+      select(id_str, user_id_str, geo) %>%
+      pluck('geo') %>%
+      enframe() %>%
+      filter(! is.na(value)) %>%
+      unnest_wider(value) %>%
+      pluck('coordinates') %>%
+      enframe() %>%
+      unnest_wider(value) %>%
+      set_colnames(c('name', 'lat', 'long')) %>%
+      na.omit()
+  
+  tw.geo$id_str <- pull(tweets[tw.geo$name, 'id_str'])
+  tw.geo <<- tw.geo
 }
 
 
