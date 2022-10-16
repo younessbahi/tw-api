@@ -415,8 +415,46 @@ get_search <- function(query = NA, .lat = NA, .long = NA, .radius = NA, .place =
         created_at = parse_datetime(created_at) + 3600
       )
   rm(res.data)
-  print(length(users.list$created_at)) #testing
+ # print(length(users.list$created_at)) #testing
+  if (res$status == 503) {
+    res$status == 503
+    res$body <- function (users.list, tw.list) {
   
+      index_rm <- cRm[which(cRm$to_rm %in% names({ users.list })),]$to_rm
+      users.list %<>% select(- all_of(index_rm))
+  
+      usr_entity_clean(users = users.list)
+      users.list %<>% select(- entities)
+  
+      tw_entity_clean(tweets = tw.list)
+      tw.list %<>%
+        select(- c(rowID, created_at, entities, extended_entities, ext, ext_edit_control)) %>%
+        arrange(desc(at_GMT_time)) %>%
+        relocate(at_GMT_time, at_UTC_time)
+  
+      if (any(names(tw.list) == 'display_text_range')) {
+        tw.list %<>% select(- display_text_range)
+      }
+  
+      return(
+        list(
+          tweets_count       = nrow(tw.list),
+          unique_users_count = length(unique(users.list$id_str)),
+          tweets             = list(
+            items    = tw.list,
+            hashtags = hashtags,
+            mentions = mentions,
+            urls     = tw.urls,
+            medias   = tw.media
+            #geo = tw.geo
+          ),
+          users = list(
+            items = users.list,
+            url   = user.url)
+        )
+      )
+    }
+  }
   
   index_rm <- cRm[which(cRm$to_rm %in% names(users.list)),]$to_rm
   users.list %<>% select(- all_of(index_rm))
@@ -452,11 +490,5 @@ get_search <- function(query = NA, .lat = NA, .long = NA, .radius = NA, .place =
     )
   print(length(result))
   
-  if (res$status == 503) {
-    res$status == 503
-    res$body <- return(result_)
-  } else {
-    return(result_)
-  }
-  rm(list = ls())
+ 
 }
