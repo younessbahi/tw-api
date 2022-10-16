@@ -6,7 +6,7 @@ cursor = '-1'
 i = 0
 
 q ="science"
-q.parse_ =urltools::url_encode(q)
+#q.parse_ =urltools::url_encode(q)
 
 chromote::set_chrome_args(c('--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox'))
 b <- chromote::ChromoteSession$new()
