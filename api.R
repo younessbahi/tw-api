@@ -29,14 +29,14 @@ list()
 #* Get trends
 #* @param woeid:str Location ID
 #* @get /trend
-get_trend <- function (woeid = '1', res, req) {
+get_trend <- function(woeid = '1', res, req) {
   if (as.character(woeid) %!in% as.character(loc$woeid)) {
     res$status <- 500
-    res$body <-
+    res$body   <-
       return(
         err_handler(
           status = 1003,
-          msg = glue::glue("Invalid id. Please refer to documentation to get available location ids.")
+          msg    = glue::glue("Invalid id. Please refer to documentation to get available location ids.")
         )
       )
     res
@@ -48,7 +48,7 @@ get_trend <- function (woeid = '1', res, req) {
 
 
 #* @get /trend/location/list
-get_loc <- function () {
+get_loc <- function() {
   loc_ <-
     loc %>%
       select(- c(rowID, url)) %>%
@@ -64,7 +64,7 @@ get_loc <- function () {
 #* Get Score
 #* @param keyword:str Your target keyword
 #* @get /score
-get_score <- function (keyword) {
+get_score <- function(keyword) {
   
   ScoreTbl <- score_(keyword = keyword)
   
@@ -77,7 +77,7 @@ get_score <- function (keyword) {
         enframe(name = "rowID") %>%
         unnest_wider(value) %>%
         select(- c(tokens, inline))
-  
+    
     topicScoreTbl$result_context <- if (is.null(topicScoreTbl$result_context)) '' else  topicScoreTbl$result_context
     
     topicScoreTbl$context.type <-
@@ -88,7 +88,7 @@ get_score <- function (keyword) {
           lapply(., function(e) { if (is_empty(e) | is.null(e)) NA else e }) %>%
           unlist()
       }
-  
+    
     topicScoreTbl$context.string <-
       if (topicScoreTbl$result_context == '') '' else {
         purrr::map_depth(
@@ -97,7 +97,7 @@ get_score <- function (keyword) {
           lapply(., function(e) { if (is_empty(e) | is.null(e)) NA else e }) %>%
           unlist()
       }
-  
+    
     topicScoreTbl %<>%
       select(- result_context) %>%
       relocate(rowID, topic, rounded_score, context.type, context.string) %>%
@@ -127,23 +127,23 @@ get_score <- function (keyword) {
           tokens = list(value)
         ) %>%
         pull(tokens)
-  
+    
     userScoreTbl$result_context <- if (is.null(userScoreTbl$result_context)) '' else  userScoreTbl$result_context
-  
+    
     userScoreTbl$context.type <-
       if (userScoreTbl$result_context == '')  '' else {
         purrr::map_depth(userScoreTbl$result_context, .depth = 1, ~ .$types %>% unlist(use.names = F)) %>% #list to vec
           lapply(., function(e) { if (is_empty(e) | is.null(e)) NA else e }) %>%
           unlist()
       }
-  
+    
     userScoreTbl$context.string <-
       if (userScoreTbl$result_context == '') '' else {
         purrr::map_depth(userScoreTbl$result_context, .depth = 1, ~ .$display_string %>% unlist(use.names = F)) %>% #list to vec
           lapply(., function(e) { if (is_empty(e) | is.null(e)) NA else e }) %>%
           unlist()
       }
-  
+    
     userScoreTbl %<>%
       select(- c(social_context, result_context, inline)) %>%
       relocate(rowID, screen_name, rounded_score) %>%
@@ -154,20 +154,19 @@ get_score <- function (keyword) {
   
   return(
     list(
-      query = ScoreTbl$query,
-      count = ScoreTbl$num_results,
+      query  = ScoreTbl$query,
+      count  = ScoreTbl$num_results,
       topics = topicScoreTbl,
-      users = userScoreTbl
+      users  = userScoreTbl
     )
   )
 }
 
 
-
 #* @get /search
-get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place = NA, .since = NA, .until = NA, .from = NA, .to = NA,
-                        .replies = F, .minLikes = NA, .minReplies = NA, .minRetweets = NA, .verified = F, .hasImage = F, .hasVideo = F,
-                        .hasMedia = F, .hasLinks = F, .url = NA, .count = '-1', res, req) {
+get_search <- function(query = NA, .lat = NA, .long = NA, .radius = NA, .place = NA, .since = NA, .until = NA, .from = NA, .to = NA,
+                       .replies = F, .minLikes = NA, .minReplies = NA, .minRetweets = NA, .verified = F, .hasImage = F, .hasVideo = F,
+                       .hasMedia = F, .hasLinks = F, .url = NA, .count = '-1', res, req) {
   
   q.clean_ <- search_(query, .lat, .long, .radius, .place, .since, .until, .from, .to, .replies, .minLikes, .minReplies, .minRetweets, .verified,
                       .hasImage, .hasVideo, .hasMedia, .hasLinks, .url)
@@ -176,11 +175,11 @@ get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place 
   
   if (q.clean_ == "") {
     res$status <- 500
-    res$body <-
+    res$body   <-
       return(
         err_handler(
           status = 1010,
-          msg = glue::glue("Request cannot be blank. You need to provide at least One argument!")
+          msg    = glue::glue("Request cannot be blank. You need to provide at least One argument!")
         )
       )
     res
@@ -250,19 +249,19 @@ get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place 
     `ext`                                  = 'mediaStats,highlightedLabel,hasNftAvatar,voiceInfo,enrichments,superFollowMetadata,unmentionInfo,editControl,collab_control,vibe'
   )
   
-  count_ = as.numeric(.count)
-  pagination = ifelse(.count != '-1', ceiling(count_/20), '')
+  count_     = as.numeric(.count)
+  pagination = ifelse(.count != '-1', ceiling(count_ / 20), '')
   
   if (.count != '-1') {
     for (c in seq_along(1:pagination)) {
       i = i + 1
-  
+      
       if (i != 1) {
         last.cursor   = cursor
         params$cursor = cursor
         #cat(cursor, fill = T)
       }
-  
+      
       res <-
         httr::GET(
           url   = 'https://twitter.com/i/api/2/search/adaptive.json',
@@ -271,11 +270,11 @@ get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place 
           query = params,
           set_cookies(cookies = cookies__)
         )
-  
+      
       res_ <- content(res)
-  
+      
       if (i != 1) {
-    
+        
         last   <-
           length(res_$timeline$instructions)
         cursor <-
@@ -307,20 +306,20 @@ get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place 
             cursor$
             value
       }
-  
+      
       result[[i]] <- append(res_, empty)
       
     }
   } else {
     while (cursor != last.cursor) {
       i = i + 1
-  
+      
       if (i != 1) {
         last.cursor   = cursor
         params$cursor = cursor
         #cat(cursor, fill = T)
       }
-  
+      
       res <-
         httr::GET(
           url   = 'https://twitter.com/i/api/2/search/adaptive.json',
@@ -328,11 +327,11 @@ get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place 
           query = params,
           set_cookies(cookies = cookies__)
         )
-  
+      
       res_ <- content(res)
-  
+      
       if (i != 1) {
-    
+        
         last   <-
           length(res_$timeline$instructions)
         cursor <-
@@ -364,7 +363,7 @@ get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place 
             cursor$
             value
       }
-  
+      
       result[[i]] <- append(res_, empty)
       
     }
@@ -379,7 +378,7 @@ get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place 
       unnest_wider(globalObjects) %>%
       select(rowID, tweets, users)
   
-  if (na.tools::all_na(res.data$tweets)){
+  if (na.tools::all_na(res.data$tweets)) {
     res$status <- 500
     res$body   <-
       return(
@@ -397,26 +396,28 @@ get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place 
       unnest_wider(value)
   }
   
-  parse_datetime <- function (str_date) {
-    as.POSIXct(str_date, format="%a %b %d %H:%M:%S +0000 %Y", tz="GMT")
+  parse_datetime <- function(str_date) {
+    as.POSIXct(str_date, format = "%a %b %d %H:%M:%S +0000 %Y", tz = "GMT")
   }
   
   tw.list <-
     tidy_(res.data$tweets) %>%
       mutate(
-        at_GMT_time = parse_datetime(created_at) +3600,
+        at_GMT_time = parse_datetime(created_at) + 3600,
         at_UTC_time = parse_datetime(created_at)
       )
   
   users.list <-
     tidy_(res.data$users) %>%
       mutate(
-        created_at = parse_datetime(created_at) +3600
+        created_at = parse_datetime(created_at) + 3600
       )
+  
   print(length(users.list$created_at)) #testing
   
-  index_rm <- cRm[which(cRm$to_rm %in% names(users.list)), ]$to_rm
-  users.list %<>% select(-all_of(index_rm))
+  
+  index_rm <- cRm[which(cRm$to_rm %in% names(users.list)),]$to_rm
+  users.list %<>% select(- all_of(index_rm))
   
   usr_entity_clean(users = users.list)
   users.list %<>% select(- entities)
@@ -431,24 +432,29 @@ get_search <- function (query = NA, .lat = NA, .long = NA, .radius = NA, .place 
     tw.list %<>% select(- display_text_range)
   }
   
-  return(
+  
+  result <-
     list(
-      tweets_count = nrow(tw.list),
+      tweets_count       = nrow(tw.list),
       unique_users_count = length(unique(users.list$id_str)),
-      tweets = list(
-        items = tw.list,
+      tweets             = list(
+        items    = tw.list,
         hashtags = hashtags,
         mentions = mentions,
-        urls = tw.urls,
-        medias = tw.media
+        urls     = tw.urls,
+        medias   = tw.media
         #geo = tw.geo
       ),
-      users = list(
+      users              = list(
         items = users.list,
-        url = user.url)
+        url   = user.url)
     )
-  )
   
   
+  if (res$status == 503) {
+    res$body <- return(result)
+  } else {
+    return(result)
+  }
   
 }
