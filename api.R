@@ -434,7 +434,6 @@ get_search <- function(query = NA, .lat = NA, .long = NA, .radius = NA, .place =
     tw.list %<>% select(- display_text_range)
   }
   
-  
   result_ <-
     list(
       tweets_count       = nrow(tw.list),
@@ -459,5 +458,5 @@ get_search <- function(query = NA, .lat = NA, .long = NA, .radius = NA, .place =
   } else {
     return(result_)
   }
-  
+  rm(list = ls())
 }
