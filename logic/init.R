@@ -8,7 +8,6 @@ i = 0
 q ="science"
 q.parse_ =urltools::url_encode(q)
 
-
 chromote::set_chrome_args(c('--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox'))
 b <- chromote::ChromoteSession$new()
 userAgent_mobile <- " Chrome/55.0.2883.87 Safari/537.36"
@@ -22,9 +21,7 @@ cookies_ <- b$Network$getCookies()
 cookies_ <- cookies_$cookies
 
 b$close()
-Sys.sleep(2)
 rm(b)
-
 
 nm       <- unlist(lapply(cookies_, '[[', 1))
 val      <- unlist(lapply(cookies_, '[[', 2))

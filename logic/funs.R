@@ -168,7 +168,7 @@ tw_entity_clean <- function (tweets) {
       na.omit()
   
   tw.geo$id_str <- pull(tweets[tw.geo$name, 'id_str'])
-  tw.geo <<- tw.geo
+  tw.geo <<- if (length(tw.geo$id_str) == 0) list() else tw.geo
 }
 
 
@@ -264,16 +264,16 @@ search_ <- function (query, .lat, .long, .radius, .place, .since, .until, .from,
   config <- list()
   
   #### Any
-  .sTerm = query  #default to NULL
+  .sTerm = as.character(query)  #default to NULL
   sTerm  = if (is.na(.sTerm)) '' else .sTerm
   
   
   #### Location
   ## Geocode ----
   #default to NA
-  lat    <- .lat #"33.575692"
-  long   <- .long #"-7.625285"
-  radius <- .radius #"100km"
+  lat    <- as.character(.lat) #"33.575692"
+  long   <- as.character(.long) #"-7.625285"
+  radius <- as.character(.radius) #"100km"
   
   geo <- c()
   
@@ -300,7 +300,7 @@ search_ <- function (query, .lat, .long, .radius, .place, .since, .until, .from,
   #### Dates
   #/ format: 2022-09-05T00:00:00.0000Z /
   ## Filter:until ----
-  until.date <- .until #default to NA {YYY/MM/DD}
+  until.date <- as.character(.until) #default to NA {YYY/MM/DD}
   if (! is.na(until.date)) {
     until.datetime <- paste0(as.Date(until.date) + 1, 'T00:00:01')
     until          <- glue::glue("until:{until.datetime}")
@@ -309,7 +309,7 @@ search_ <- function (query, .lat, .long, .radius, .place, .since, .until, .from,
   }
   
   ## Filter:Since ----
-  since.date <- .since #'2022-9-1'
+  since.date <- as.character(.since) #'2022-9-1'
   if (! is.na(since.date)) {
     since.datetime <- paste0(as.Date(since.date), 'T00:00:01')
     since          <- glue::glue("since:{since.datetime}")
@@ -317,11 +317,11 @@ search_ <- function (query, .lat, .long, .radius, .place, .since, .until, .from,
     since <- ''
   }
   ## From ----
-  from_ = .from # '@CBCNews' #default NULL
+  from_ = as.character(.from) # '@CBCNews' #default NULL
   from  = if (is.na(from_)) '' else paste0('from:', from_)
   
   ## To ----
-  to_ = .to # default NULL
+  to_ = as.character(.to) # default NULL
   to  = if (is.na(to_)) '' else paste0('to:', to_)
   
   #### Filters
@@ -330,15 +330,15 @@ search_ <- function (query, .lat, .long, .radius, .place, .since, .until, .from,
   replies  = if (replies_ == FALSE) '' else { "filter:replies" }
   
   ## Filter:minLikes ----
-  minLikes_ = .minLikes #default NULL
+  minLikes_ = as.character(.minLikes) #default NULL
   minLikes  = if (is.na(minLikes_)) '' else paste0('min_faves:', minLikes_)
   
   ## Filter:minReplies ----
-  minReplies_ = .minReplies #default NULL
+  minReplies_ = as.character(.minReplies) #default NULL
   minReplies  = if (is.na(minReplies_)) '' else paste0('min_replies:', minReplies_)
   
   ## Filter:minRetweets ----
-  minRetweets_ = .minRetweets #default NULL
+  minRetweets_ = as.character(.minRetweets) #default NULL
   minRetweets  = if (is.na(minRetweets_)) '' else paste0('min_retweets:', minRetweets_)
   
   ## Filter:verified ----
@@ -363,7 +363,7 @@ search_ <- function (query, .lat, .long, .radius, .place, .since, .until, .from,
   
   ## Filter:domain ----
   #When a domain name is specified, such as oscars.org, the tweets containing domain and subdomain links are returned. If only one term is entered (ex:oscars), links from all websites that belong to that term will be returned.
-  url_ = .url #default NULL
+  url_ = as.character(.url) #default NULL
   url  = if (is.na(url_)) '' else paste0('url:', url_)
   
   q        = paste(sTerm, from, to, until, since, place, geo, minLikes, minReplies, minRetweets, verified, hasImage, hasVideo, hasMedia, hasLinks, url)
