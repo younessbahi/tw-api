@@ -1,4 +1,4 @@
-usr_entity_clean <- function (users) {
+usr_entity_clean <- function(users) {
   
   entities_usr <-
     users %>%
@@ -27,7 +27,7 @@ usr_entity_clean <- function (users) {
     unnest(value) %>%
     unnest_wider(value) %>%
     mutate(
-      rowID = user.url_$rowID,
+      rowID      = user.url_$rowID,
       usr_id_str = pull(users[rowID, "id_str"])
     ) %>%
     select(- c(indices, rowID))
@@ -35,7 +35,7 @@ usr_entity_clean <- function (users) {
   user.url <<- user.url
 }
 
-tw_entity_clean <- function (tweets) {
+tw_entity_clean <- function(tweets) {
   entities <-
     tweets %>%
       pluck('entities') %>%
@@ -101,7 +101,7 @@ tw_entity_clean <- function (tweets) {
   if (any(names(tw.urls) == 'indices')) {
     tw.urls %<>% select(- indices)
   }
-  tw.urls <<- tw.urls# %>% select(- indices)
+  tw.urls <<- tw.urls # %>% select(- indices)
   
   ## Mentions ####
   #/ linkage with tweets rowID /
@@ -151,7 +151,7 @@ tw_entity_clean <- function (tweets) {
       unnest_wider(value)
   
   tw.media_$id_tweet <- pull(tweets[tw.media_$rowID, 'id_str'])
-  tw.media <<- tw.media_ %>% select(- c(indices, original_info, sizes))
+  tw.media           <<- tw.media_ %>% select(- c(indices, original_info, sizes))
   
   ## GEO ####
   # tw.geo <-
@@ -225,7 +225,7 @@ score_ <- function(keyword) {
   
   source('logic/init.R')
   
-  headers =  c(
+  headers = c(
     `authority`                 = 'twitter.com',
     `accept`                    = '*/*',
     `accept-language`           = 'en-US,en;q=0.9,fr;q=0.8',
@@ -245,21 +245,26 @@ score_ <- function(keyword) {
   )
   
   params = list(
-    `q`           = keyword,
+    `q`           = 'keyword',
     `src`         = 'search_box',
     `result_type` = 'users,topics,tweets'
   )
   
-  res <- httr::GET(url = 'https://twitter.com/i/api/1.1/search/typeahead.json', httr::add_headers(.headers = headers), query = params, httr::set_cookies(.cookies = cookies__))
-  return(
-    content(res)
-  )
+  res <-
+    httr::GET(
+      url = 'https://twitter.com/i/api/1.1/search/typeahead.json',
+      httr::add_headers(.headers = headers),
+      query = params,
+      httr::set_cookies(.cookies = cookies__)
+    )
+  
+  return(httr::content(res))
   
 }
 
 
-search_ <- function (query, .lat, .long, .radius, .place, .since, .until, .from, .to, .replies, .minLikes,
-                     .minReplies, .minRetweets, .verified, .hasImage, .hasVideo, .hasMedia, .hasLinks, .url) {
+search_ <- function(query, .lat, .long, .radius, .place, .since, .until, .from, .to, .replies, .minLikes,
+                    .minReplies, .minRetweets, .verified, .hasImage, .hasVideo, .hasMedia, .hasLinks, .url) {
   
   config <- list()
   
@@ -366,8 +371,8 @@ search_ <- function (query, .lat, .long, .radius, .place, .since, .until, .from,
   url_ = as.character(.url) #default NULL
   url  = if (is.na(url_)) '' else paste0('url:', url_)
   
-  q        = paste(sTerm, from, to, until, since, place, geo, minLikes, minReplies, minRetweets, verified, hasImage, hasVideo, hasMedia, hasLinks, url)
-  q.clean  = stringr::str_replace_all(q, "\\s{2,}", " ") %>% stringr::str_trim("both")
+  q       = paste(sTerm, from, to, until, since, place, geo, minLikes, minReplies, minRetweets, verified, hasImage, hasVideo, hasMedia, hasLinks, url)
+  q.clean = stringr::str_replace_all(q, "\\s{2,}", " ") %>% stringr::str_trim("both")
   
   return(q.clean)
   
