@@ -6,7 +6,7 @@ source('data/load.R')
 source('logic/err_handler.R')
 source('logic/funs.R')
 
-#port   = Sys.getenv('PORT')
+port   = Sys.getenv('PORT')
 server = plumber::plumb('api.R')
 server$run(
   host = "0.0.0.0",
