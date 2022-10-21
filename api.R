@@ -187,7 +187,7 @@ get_search <- function(query = NA, .lat = NA, .long = NA, .radius = NA, .place =
   
   q.parse_ = urltools::url_encode(q.clean_)
   
-  source('logic/init.R')
+  tryCatch(source('logic/init.R'))
   
   headers = c(
     `authority`                 = 'twitter.com',
@@ -422,18 +422,22 @@ get_search <- function(query = NA, .lat = NA, .long = NA, .radius = NA, .place =
   
   index_rm <- cRm[which(cRm$to_rm %in% names(users.list)),]$to_rm
   users.list %<>% select(- all_of(index_rm))
-
-  usr_entity_clean(users = users.list)
+  
+  user.url <- suppressMessages(tweetr:::usr_entity_clean(users = users.list))
   users.list %<>% select(- entities)
+  
+  tw_entity <- suppressMessages(tweetr:::tw_entity_clean(tweets = tw.list))
 
-  tw_entity_clean(tweets = tw.list)
   tw.list %<>%
-    select(- c(rowID, created_at, entities, extended_entities, ext, ext_edit_control)) %>%
+    select(- c(rowID, created_at, entities, ext, ext_edit_control)) %>%
     arrange(desc(at_GMT_time)) %>%
     relocate(at_GMT_time, at_UTC_time)
 
   if (any(names(tw.list) == 'display_text_range')) {
     tw.list %<>% select(- display_text_range)
+  }
+  if (any(names(tw.list) == 'extended_entities')) {
+    tw.list %<>% select(- extended_entities)
   }
   
   return(
@@ -442,10 +446,10 @@ get_search <- function(query = NA, .lat = NA, .long = NA, .radius = NA, .place =
       unique_users_count = length(unique(users.list$id_str)),
       tweets             = list(
         items    = tw.list,
-        hashtags = hashtags,
-        mentions = mentions,
-        urls     = tw.urls,
-        medias   = tw.media
+        hashtags = tw_entity$hashtags,
+        mentions = tw_entity$mentions,
+        urls     = tw_entity$tw.urls,
+        medias   = tw_entity$tw.media
         #geo = tw.geo
       ),
       users = list(
